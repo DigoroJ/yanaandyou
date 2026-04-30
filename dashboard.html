@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+
+<link rel="stylesheet" href="dashboard.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginBox" class="container">
+<h2>Admin Login</h2>
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="container hidden">
+
+<h2>Dashboard</h2>
+<button onclick="logout()">Logout</button>
+
+<h3>Add Product</h3>
+<input id="pname" placeholder="Product Name">
+<input id="pdesc" placeholder="Description">
+<input id="pprice" placeholder="Price">
+<input type="file" id="pimage">
+<button onclick="addProduct()">Upload Product</button>
+
+<h3>Products</h3>
+<div id="products"></div>
+
+<h3>Orders</h3>
+<div id="orders"></div>
+
+</div>
+
+<script src="dashboard.js"></script>
+
+</body>
+</html>

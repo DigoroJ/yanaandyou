@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yana&You | Hair Accessories</title>
+
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+<header>
+<h1>Yana&You</h1>
+<p>✨ Hair accessories made to make you feel cute & confident ✨</p>
+
+<nav>
+<a href="#about">About</a>
+<a href="#shop">Shop</a>
+<a href="#contact">Contact</a>
+</nav>
+</header>
+
+<!-- HERO -->
+<section id="hero-character">
+<div class="character-container">
+<img src="" class="animated-character">
+<h2>Welcome to Yana&You</h2>
+<p>Fun, playful hair accessories for every vibe 💖</p>
+</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+<div class="section-box">
+<h2>About Yana&You</h2>
+<p>
+Yana&You creates fun, easy-to-wear accessories designed to boost confidence and express your unique style every day.
+</p>
+</div>
+</section>
+
+<!-- SHOP -->
+<section id="shop">
+<div class="section-box">
+<h2>Our Accessories</h2>
+
+<div class="products" id="productList"></div>
+
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+<div class="section-box">
+<h2>Contact</h2>
+<p>Email: your@email.com</p>
+<p>Instagram: @yanaandyou</p>
+</div>
+</section>
+
+<footer>
+© 2026 Yana&You. All rights reserved.
+</footer>
+
+<!-- ORDER MODAL -->
+<div id="orderModal" class="modal hidden">
+<div class="modal-content">
+<h3>Place Order 💖</h3>
+
+<input id="custName" placeholder="Your Name">
+<input id="custPhone" placeholder="Phone Number">
+
+<button onclick="submitOrder()">Confirm Order</button>
+<button onclick="closeModal()">Cancel</button>
+</div>
+</div>
+
+<!-- WHATSAPP BUTTON -->
+<a href="https://wa.me/27609606081" class="whatsapp">💬</a>
+
+<script>
+
+// 🔑 SUPABASE
+window.supabaseClient = window.supabaseClient || window.supabase.createClient(
+  "https://werxumvelpzbuqtixjnm.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlcnh1bXZlbHB6YnVxdGl4am5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3MDAzMTUsImV4cCI6MjA5MjI3NjMxNX0.kpE77bGrTYpeac75votgyBKIRNEE19EtB_bz_iMcHfc"
+);
+
+var supabase = window.supabaseClient;
+
+let selectedProduct = "";
+
+// LOAD PRODUCTS
+async function loadProducts(){
+
+console.log("LOADING PRODUCTS...");
+
+const { data, error } = await supabase
+    .from("yanaProducts")
+    .select("*");
+
+console.log("DATA:", data);
+console.log("ERROR:", error);
+
+if(error){
+    console.error(error);
+    return;
+}
+
+let html = "";
+
+data.forEach(p=>{
+html += `
+<div class="product-card">
+<img src="${p.image}">
+<h3>${p.name}</h3>
+<p>${p.description || ""}</p>
+<p class="price">R${p.price}</p>
+<button class="btn" onclick="openOrder('${p.name}')">Buy Now</button>
+</div>
+`;
+});
+
+document.getElementById("productList").innerHTML = html;
+}
+
+loadProducts();
+
+// OPEN MODAL
+function openOrder(product){
+selectedProduct = product;
+document.getElementById("orderModal").classList.remove("hidden");
+}
+
+// CLOSE MODAL
+function closeModal(){
+document.getElementById("orderModal").classList.add("hidden");
+}
+
+// SUBMIT ORDER
+async function submitOrder(){
+
+const name = document.getElementById("custName").value;
+const phone = document.getElementById("custPhone").value;
+
+if(!name || !phone){
+alert("Please fill all fields");
+return;
+}
+
+// SAVE ORDER
+await supabase.from("orders").insert([
+{
+customer_name: name,
+phone: phone,
+product_name: selectedProduct
+}
+]);
+
+// WHATSAPP MESSAGE
+const msg = `Hi, I'd like to order: ${selectedProduct}`;
+window.open(`https://wa.me/27609606081?text=${encodeURIComponent(msg)}`);
+
+alert("Order sent successfully!");
+closeModal();
+}
+
+</script>
+
+</body>
+</html>
