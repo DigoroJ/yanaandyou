@@ -53,11 +53,11 @@
 
 <!-- CONTACT -->
 <section id="contact">
-<div class="section-box">
-<h2>Contact</h2>
-<p>Email: your@email.com</p>
-<p>Instagram: @yanaandyou</p>
-</div>
+    <div class="section-box">
+        <h2>Contact</h2>
+        <p>Email: your@email.com</p>
+        <p>Instagram: @yanaandyou</p>
+    </div>
 </section>
 
 <footer>
@@ -66,15 +66,15 @@
 
 <!-- ORDER MODAL -->
 <div id="orderModal" class="modal hidden">
-<div class="modal-content">
-<h3>Place Order 💖</h3>
+    <div class="modal-content">
+        <h3>Place Order 💖</h3>
 
-<input id="custName" placeholder="Your Name">
-<input id="custPhone" placeholder="Phone Number">
+        <input id="custName" placeholder="Your Name">
+        <input id="custPhone" placeholder="Phone Number">
 
-<button onclick="submitOrder()">Confirm Order</button>
-<button onclick="closeModal()">Cancel</button>
-</div>
+        <button onclick="submitOrder()">Confirm Order</button>
+        <button onclick="closeModal()">Cancel</button>
+    </div>
 </div>
 
 <!-- WHATSAPP BUTTON -->
@@ -113,13 +113,13 @@ let html = "";
 
 data.forEach(p=>{
 html += `
-<div class="product-card">
-<img src="${p.image}">
-<h3>${p.name}</h3>
-<p>${p.description || ""}</p>
-<p class="price">R${p.price}</p>
-<button class="btn" onclick="openOrder('${p.name}')">Buy Now</button>
-</div>
+    <div class="product-card">
+    <img src="${p.image}">
+    <h3>${p.name}</h3>
+    <p>${p.description || ""}</p>
+    <p class="price">R${p.price}</p>
+    <button class="btn" onclick="openOrder('${p.name}')">Buy Now</button>
+    </div>
 `;
 });
 
@@ -146,16 +146,16 @@ const name = document.getElementById("custName").value;
 const phone = document.getElementById("custPhone").value;
 
 if(!name || !phone){
-alert("Please fill all fields");
-return;
+    alert("Please fill all fields");
+    return;
 }
 
 // SAVE ORDER
 await supabase.from("orders").insert([
 {
-customer_name: name,
-phone: phone,
-product_name: selectedProduct
+    customer_name: name,
+    phone: phone,
+    product_name: selectedProduct
 }
 ]);
 
@@ -163,8 +163,8 @@ product_name: selectedProduct
 const msg = `Hi, I'd like to order: ${selectedProduct}`;
 window.open(`https://wa.me/27609606081?text=${encodeURIComponent(msg)}`);
 
-alert("Order sent successfully!");
-closeModal();
+    alert("Order sent successfully!");
+    closeModal();
 }
 
 </script>
